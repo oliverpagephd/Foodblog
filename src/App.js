@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import './App.css';
 import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-dom";
 import DetailedRecipe from "./DetailedRecipe"
+import { Container, Row, Col, Carousel} from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 var contentful = require('contentful')
 
 function App() {
@@ -27,11 +29,30 @@ function App() {
   let { path } = useRouteMatch();
 
   return (
-    <div className="App">
+    <Container style={{backgroundColor: "skyblue"}}>
+    
+     <Row>   
+    <Col>HOME</Col>
+    <Col>ABOUT</Col>
+    <Col>CONTACT</Col>
+    </Row>
 
-     <h1> Hello dreamteam</h1>
-   
-{/*loop over recipes array and make a list entry for each recipe name with a link to the recipe page. each li-tag needs individual key*/}
+
+    <Carousel>
+      {recipes.map((recipe) => (
+        <Carousel.Item interval={3000}>
+          <img
+            className="d-block w-100"
+            src={`http:${recipe.fields.image.fields.file.url}`}
+            alt={`Picture of ${recipe.fields.title}`}
+          />
+          <Carousel.Caption>
+            <h3>{recipe.fields.title}</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
+
 
       <nav>
       {recipes.map((recipe) => (
@@ -59,7 +80,9 @@ function App() {
             </Route>
           </Switch>
 
-    </div>
+     
+
+          </Container>
   );
 }
 
