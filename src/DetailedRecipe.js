@@ -4,11 +4,30 @@ import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-d
 var contentful = require('contentful')
 
 export default function DetailedRecipe(props){ 
-    const {RecipeName} = useParams();
+    
+    const {id} = useParams();
+    
 
-    return(
-        <>    
-            <p>{props.recipes[1].fields.title}</p>
+  const [detailedRecipe, setDetailedRecipe]=useState()
+
+  function getRecipe () {
+    const recipe = props.recipes.find(recipe =>  id === recipe.sys.id)
+    setDetailedRecipe(recipe)
+    return detailedRecipe
+}
+   
+    useEffect(()=>{ 
+        getRecipe()
+    },[id])
+
+    
+    //destructuring
+    //const {recipes} = props 
+
+    return (
+        <>  
+        {console.log(detailedRecipe)}
+            <p>blubb</p>
         </>
     )
 }

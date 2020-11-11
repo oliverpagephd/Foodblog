@@ -57,7 +57,7 @@ function App() {
       <nav>
       {recipes.map((recipe) => (
         <li key={recipe.sys.id}>
-          <NavLink to={`${path}${recipe.fields.title}`}>
+          <NavLink to={`${path}${recipe.sys.id}`}>
           {recipe.fields.title}
           </NavLink>
         </li>))}
@@ -74,7 +74,7 @@ function App() {
                   </li>))}
               </nav>
             </Route>
-            <Route path="/:recipeTitle">
+            <Route path="/:id">
              <p>i'm a recipe!</p>
               <DetailedRecipe recipes={recipes} />
             </Route>
