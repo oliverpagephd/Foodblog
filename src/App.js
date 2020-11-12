@@ -1,64 +1,40 @@
 import React, {useState, useEffect} from "react";
+import Detail from "./Detail"
 import './App.css';
 import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-dom";
-import DetailedRecipe from "./DetailedRecipe"
 var contentful = require('contentful')
 
 function App() {
 
-  const [recipes, setRecipes]=useState([])
-  //Initialising and fetching recipes once upon first loading of page
-  useEffect(()=>{
-  //Initialising the client
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    //Initialising the client
     var client = contentful.createClient({
       space: process.env.REACT_APP_CONTENTFUL_SPACE,
       accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_KEY
-    })
-  //Instead of using fetch; is incorporated in contenful
-    client.getEntries()
-    .then(function (entries) {
-      entries.items.forEach(function (entry) {
-            console.log(entry)
-      })
-      setRecipes(entries.items)
-    })
-  },[])
-
-  let { path } = useRouteMatch();
+    });
+    //Instead of using fetch; is incorporated in contenful
+    client.getEntries().then(function (entries) {
+      setData(entries.items);
+      console.log(entries.items);
+    });
+  }, []);
 
   return (
     <div className="App">
-
-     <h1> Hello dreamteam</h1>
-   
-{/*loop over recipes array and make a list entry for each recipe name with a link to the recipe page. each li-tag needs individual key*/}
-
       <nav>
-      {recipes.map((recipe) => (
-        <li key={recipe.sys.id}>
-          <NavLink to={`${path}${recipe.fields.title}`}>
-          {recipe.fields.title}
-          </NavLink>
-        </li>))}
-      </nav> 
-
+        {data.map((e) => (
+          <NavLink to={e.sys.id}>{e.fields.title}</NavLink>
+        ))}
+      </nav>
       <Switch>
-            <Route exact path="/">
-              <nav>
-                {recipes.map((recipe) => (
-                  <li key={recipe.sys.id}>
-                    <NavLink to={`${path}${recipe.fields.title}`}>
-                    {recipe.fields.title}
-                    </NavLink>
-                  </li>))}
-              </nav>
-            </Route>
-            <Route path="/:recipeTitle">
-             <p>i'm a recipe!</p>
-              <DetailedRecipe recipes={recipes} />
-            </Route>
-          </Switch>
-
+        <Route exact path="/">
+          <h1>hi</h1>
+        </Route>
+        <Route path="/:id">
+          <Detail data={data} />
+        </Route>
+      </Switch>
     </div>
   );
 }

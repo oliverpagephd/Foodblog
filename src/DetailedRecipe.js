@@ -4,7 +4,9 @@ import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-d
 var contentful = require('contentful')
 
 export default function DetailedRecipe(props){ 
-    const {RecipeName} = useParams();
+    const {id} = useParams();
+
+    
 
     return(
         <>    
