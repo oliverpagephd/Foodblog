@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import Detail from "./Detail"
 import './App.css';
 import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-dom";
+import { Container, Row, Col, Carousel} from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 var contentful = require('contentful')
 
 function App() {
