@@ -2,8 +2,13 @@ import React, {useState, useEffect, Fragment} from "react";
 import './App.css';
 import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-dom";
 import DetailedRecipe from "./DetailedRecipe"
-import { Container, Row, Col, Carousel} from "react-bootstrap";
+import { Container, Carousel} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavigationBar from'./NavigationBar';
+import { Home } from './Home';
+import { About } from './About';
+import { News } from './News';
+
 var contentful = require('contentful')
 
 function App() {
@@ -29,19 +34,30 @@ function App() {
   let { path } = useRouteMatch();
 
   return (
-    <Container style={{backgroundColor: "skyblue"}}>
+    <Container style={{backgroundColor: "#bedbbb"}}>
     
-     <Row>   
-    <Col>HOME</Col>
-    <Col>ABOUT</Col>
-    <Col>CONTACT</Col>
-    </Row>
+    
+  
+   
+    <NavigationBar>  
+    <Switch>
+       <Route exact path="/" component={Home} />
+       <Route path="/about" component={About} />
+       <Route path="/news" component={News} />
+      </Switch>
+   </NavigationBar>
+   
+
+ 
+
+
+
 
 
     <Carousel>
       {recipes.map((recipe) => (
         <Carousel.Item interval={3000}>
-          <img
+          <img height="500" 
             className="d-block w-100"
             src={`http:${recipe.fields.image.fields.file.url}`}
             alt={`Picture of ${recipe.fields.title}`}
@@ -54,18 +70,11 @@ function App() {
     </Carousel>
 
 
-      <nav>
-      {recipes.map((recipe) => (
-        <li key={recipe.sys.id}>
-          <NavLink to={`${path}${recipe.fields.title}`}>
-          {recipe.fields.title}
-          </NavLink>
-        </li>))}
-      </nav> 
+      
 
       <Switch>
             <Route exact path="/">
-              <nav>
+              <nav className="nam">
                 {recipes.map((recipe) => (
                   <li key={recipe.sys.id}>
                     <NavLink to={`${path}${recipe.fields.title}`}>
@@ -79,6 +88,8 @@ function App() {
               <DetailedRecipe recipes={recipes} />
             </Route>
           </Switch>
+
+         
 
      
 
